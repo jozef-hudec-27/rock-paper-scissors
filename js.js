@@ -4,40 +4,47 @@ function getComputerChoice() {
     return choices[Math.floor(Math.random()*3)]
 }
 
+function playRound() {
+    const userChoice = prompt('Rock, paper or scissors?').toLocaleLowerCase()
 
-const userChoice = prompt('Rock, paper or scissors?').toLocaleLowerCase()
-
-if (!['rock', 'paper', 'scissors'].includes(userChoice)) {
-    alert('Invalid choice!')
-} else {
-    const computerChoice = getComputerChoice()
-
-    let tie = userChoice === computerChoice
-    let userDidWin;
-    let computerDidWin;
-
-    if (tie) {
-        alert(`Computer choice was: ${computerChoice}. It's a tie!`)
+    if (!['rock', 'paper', 'scissors'].includes(userChoice)) {
+        alert('Please insert a valid choice!')
+        playRound()
     } else {
-        switch(userChoice) {
-            case 'rock':
-                userDidWin = computerChoice === 'scissors'
-                computerDidWin = computerChoice === 'paper'
-                break
-            case 'paper':
-                userDidWin = computerChoice === 'rock'
-                computerDidWin = computerChoice === 'scissors'
-                break
-            case 'scissors':
-                userDidWin = computerChoice === 'paper'
-                computerDidWin = computerChoice === 'rock'
-                break
+        const computerChoice = getComputerChoice()
+
+        let tie = userChoice === computerChoice
+        let userDidWin;
+        let computerDidWin;
+        let playAgain = false
+
+        if (tie) {
+            playAgain = confirm(`Computer choice was: ${computerChoice}. It's a tie! Play again?`)
+        } else {
+            switch(userChoice) {
+                case 'rock':
+                    userDidWin = computerChoice === 'scissors'
+                    computerDidWin = computerChoice === 'paper'
+                    break
+                case 'paper':
+                    userDidWin = computerChoice === 'rock'
+                    computerDidWin = computerChoice === 'scissors'
+                    break
+                case 'scissors':
+                    userDidWin = computerChoice === 'paper'
+                    computerDidWin = computerChoice === 'rock'
+                    break
+            }
+
+            if (userDidWin) {
+                playAgain = confirm(`Computer choice was: ${computerChoice}. You win! Play again?`)
+            } else {
+                playAgain = confirm(`Computer choice was: ${computerChoice}. You lose! Play again?`)
+            }
         }
 
-        if (userDidWin) {
-            alert(`Computer choice was: ${computerChoice}. You win!`)
-        } else {
-            alert(`Computer choice was: ${computerChoice}. You lose!`)
-        }
+        if (playAgain) playRound()
     }
 }
+
+playRound()
