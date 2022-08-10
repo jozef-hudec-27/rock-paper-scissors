@@ -4,22 +4,22 @@ function getComputerChoice() {
     return choices[Math.floor(Math.random()*3)]
 }
 
-function playRound() {
-    const userChoice = prompt('Rock, paper or scissors?').toLocaleLowerCase()
+function playRoundAndGetWinner() {
+    const userChoice = prompt('Rock, paper or scissors?')?.toLowerCase()
 
     if (!['rock', 'paper', 'scissors'].includes(userChoice)) {
         alert('Please insert a valid choice!')
-        playRound()
+        return playRoundAndGetWinner()
     } else {
         const computerChoice = getComputerChoice()
 
         let tie = userChoice === computerChoice
         let userDidWin;
         let computerDidWin;
-        let playAgain = false
 
         if (tie) {
-            playAgain = confirm(`Computer choice was: ${computerChoice}. It's a tie! Play again?`)
+            alert(`Computer choice was: ${computerChoice}. It's a tie!`)
+            return 'tie'
         } else {
             switch(userChoice) {
                 case 'rock':
@@ -37,14 +37,43 @@ function playRound() {
             }
 
             if (userDidWin) {
-                playAgain = confirm(`Computer choice was: ${computerChoice}. You win! Play again?`)
+                alert(`Computer choice was: ${computerChoice}. You win!`)
+                return 'user'
             } else {
-                playAgain = confirm(`Computer choice was: ${computerChoice}. You lose! Play again?`)
+                alert(`Computer choice was: ${computerChoice}. You lose!`)
+                return 'computer'
             }
         }
-
-        if (playAgain) playRound()
     }
 }
 
-playRound()
+function game() {
+    let userLives = 3
+    let computerLives = 3
+
+    while (userLives > 0 && computerLives > 0) {
+        let winner = playRoundAndGetWinner()
+
+        if (winner === 'user') {
+            computerLives--
+        } else if (winner === 'computer') {
+            userLives--
+        } 
+
+        console.log(`*** YOU ${3-computerLives} | COMPUTER ${3-userLives}`)
+    }
+
+    if (userLives === 0) { // the user lost
+        alert('The computer won 3 times. You lose the game.')
+    } else { // the computer lost
+        alert('You won 3 times. You win the game.')
+    }
+
+    let playNewGame = confirm('Want to play a new game?')
+
+    if (playNewGame) {
+        game()
+    }
+}
+
+game()
