@@ -3,13 +3,11 @@ const [ROCK, PAPER, SCISSORS] = CHOICES
 
 
 function getComputerChoice() {
-    const choices = CHOICES
-
-    return choices[Math.floor(Math.random()*3)]
+    return CHOICES[Math.floor(Math.random()*3)]
 }
 
 function playRoundAndGetWinner() {
-    const userChoice = prompt('Rock, paper or scissors?')?.toLowerCase()
+    const userChoice = prompt(`${ROCK}, ${PAPER} or ${SCISSORS}?`)?.toLowerCase()
 
     if (!CHOICES.includes(userChoice)) {
         alert('Please insert a valid choice!')
@@ -64,7 +62,7 @@ function game() {
             userLives--
         } 
 
-        console.log(`*** YOU ${3-computerLives} | COMPUTER ${3-userLives}`)
+        console.log(`*** YOU ${3-computerLives} | COMPUTER ${3-userLives} ***`)
     }
 
     if (userLives === 0) { // the user lost
@@ -80,4 +78,6 @@ function game() {
     }
 }
 
-game()
+window.onload = () => {
+    game()
+}
