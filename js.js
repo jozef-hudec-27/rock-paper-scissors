@@ -1,5 +1,9 @@
+const CHOICES = ['rock', 'paper', 'scissors']
+const [ROCK, PAPER, SCISSORS] = CHOICES
+
+
 function getComputerChoice() {
-    const choices = ['rock', 'paper', 'scissors']
+    const choices = CHOICES
 
     return choices[Math.floor(Math.random()*3)]
 }
@@ -7,7 +11,7 @@ function getComputerChoice() {
 function playRoundAndGetWinner() {
     const userChoice = prompt('Rock, paper or scissors?')?.toLowerCase()
 
-    if (!['rock', 'paper', 'scissors'].includes(userChoice)) {
+    if (!CHOICES.includes(userChoice)) {
         alert('Please insert a valid choice!')
         return playRoundAndGetWinner()
     } else {
@@ -22,17 +26,17 @@ function playRoundAndGetWinner() {
             return 'tie'
         } else {
             switch(userChoice) {
-                case 'rock':
-                    userDidWin = computerChoice === 'scissors'
-                    computerDidWin = computerChoice === 'paper'
+                case ROCK:
+                    userDidWin = computerChoice === SCISSORS
+                    computerDidWin = computerChoice === PAPER
                     break
-                case 'paper':
-                    userDidWin = computerChoice === 'rock'
-                    computerDidWin = computerChoice === 'scissors'
+                case PAPER:
+                    userDidWin = computerChoice === ROCK
+                    computerDidWin = computerChoice === SCISSORS
                     break
-                case 'scissors':
-                    userDidWin = computerChoice === 'paper'
-                    computerDidWin = computerChoice === 'rock'
+                case SCISSORS:
+                    userDidWin = computerChoice === PAPER
+                    computerDidWin = computerChoice === ROCK
                     break
             }
 
