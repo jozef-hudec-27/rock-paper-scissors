@@ -72,7 +72,7 @@ audio {
 
 
 .modal {
-    display: block; /* hidden by default */
+    display: none; /* hidden by default */
     position: fixed; /* stay in place */
     z-index: 999; 
     padding-top: 100px;
