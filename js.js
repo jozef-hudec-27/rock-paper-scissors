@@ -17,7 +17,6 @@ function playRoundAndGetWinner() {
 
         let tie = userChoice === computerChoice
         let userDidWin;
-        let computerDidWin;
 
         if (tie) {
             alert(`Computer choice was: ${computerChoice}. It's a tie!`)
@@ -26,15 +25,12 @@ function playRoundAndGetWinner() {
             switch(userChoice) {
                 case ROCK:
                     userDidWin = computerChoice === SCISSORS
-                    computerDidWin = computerChoice === PAPER
                     break
                 case PAPER:
                     userDidWin = computerChoice === ROCK
-                    computerDidWin = computerChoice === SCISSORS
                     break
                 case SCISSORS:
                     userDidWin = computerChoice === PAPER
-                    computerDidWin = computerChoice === ROCK
                     break
             }
 
