@@ -1,16 +1,25 @@
-const CHOICES = ['rock', 'paper', 'scissors']
-const [ROCK, PAPER, SCISSORS] = CHOICES
+const CHOICES = ['rock', 'paper', 'scissors'];
+const [ROCK, PAPER, SCISSORS] = CHOICES;
 
-const choiceNodes = document.getElementsByClassName('choice')
+const clickingSoundPlayer = document.getElementById('click-audio-player');
+clickingSoundPlayer.volume = 0.5;
+
+function chooseChoice() {
+    clickingSoundPlayer.currentTime = 0;
+    clickingSoundPlayer.play();
+};
+
+const choiceNodes = document.getElementsByClassName('choice');
 Array.from(choiceNodes).forEach(node => {
-    node.addEventListener('mouseover', () => node.classList.add('hovering'))
-    node.addEventListener('mouseout', () => node.classList.remove('hovering'))
-})
+    node.addEventListener('mouseover', () => node.classList.add('hovering'));
+    node.addEventListener('mouseout', () => node.classList.remove('hovering'));
+    node.addEventListener('click', chooseChoice);
+});
 
 
 function getComputerChoice() {
-    return CHOICES[Math.floor(Math.random()*3)]
-}
+    return CHOICES[Math.floor(Math.random()*3)];
+};
 
 function playRoundAndGetWinner() {
     const userChoice = prompt(`${ROCK}, ${PAPER} or ${SCISSORS}?`)?.toLowerCase()
