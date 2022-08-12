@@ -20,6 +20,13 @@ Array.from(choiceNodes).forEach(node => {
     node.addEventListener('click', e => chooseChoice(e.target.parentNode.dataset.choice));
 });
 
+const gameOverModal = document.getElementById('game-over-modal')
+const playAgainBtn = document.querySelector('.play-again-btn')
+
+playAgainBtn.addEventListener('click', () => {
+    window.location.href = ''
+})
+
 let userHP = 5;
 let computerHP = 5;
 let roundCounter = 1;
@@ -68,7 +75,7 @@ function playRound(userChoice) {
             }
 
             if (computerHP === 0) { // if we won
-                gameOverMessage = 'You won 5 times. You win the game!'
+                gameOverMessage = 'You won 5 times. You win the game! Good job!'
             }
         } else {
             roundMsgNode.innerHTML = `The computer chose ${computerChoice}. <strong>You lose!</strong>`
@@ -83,11 +90,16 @@ function playRound(userChoice) {
             }
 
             if (userHP === 0) { // if we lost
-                gameOverMessage = 'The computer won 5 times. You lose the game!'
+                gameOverMessage = 'The computer won 5 times. You lose the game! Better luck next time!'
             }
         }
 
-        if (gameOverMessage) alert(gameOverMessage)
+        if (gameOverMessage) {
+            setTimeout(() => {
+                document.querySelector('.modal-body-text').textContent = gameOverMessage
+                gameOverModal.style.display = 'block'
+            }, 300);
+        }
     }
 };
 
