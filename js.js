@@ -1,6 +1,12 @@
 const CHOICES = ['rock', 'paper', 'scissors']
 const [ROCK, PAPER, SCISSORS] = CHOICES
 
+const choiceNodes = document.getElementsByClassName('choice')
+Array.from(choiceNodes).forEach(node => {
+    node.addEventListener('mouseover', () => node.classList.add('hovering'))
+    node.addEventListener('mouseout', () => node.classList.remove('hovering'))
+})
+
 
 function getComputerChoice() {
     return CHOICES[Math.floor(Math.random()*3)]
@@ -74,6 +80,5 @@ function game() {
     }
 }
 
-window.onload = () => {
-    game()
-}
+// const playBtn = document.querySelector('button')
+// playBtn.addEventListener('click', game)
