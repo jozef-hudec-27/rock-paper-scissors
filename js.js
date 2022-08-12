@@ -4,90 +4,91 @@ const [ROCK, PAPER, SCISSORS] = CHOICES;
 const clickingSoundPlayer = document.getElementById('click-audio-player');
 clickingSoundPlayer.volume = 0.5;
 
-function chooseChoice() {
-    clickingSoundPlayer.currentTime = 0;
-    clickingSoundPlayer.play();
+function chooseChoice(choice) {
+    if (!gameOverMessage) { 
+        clickingSoundPlayer.currentTime = 0;
+        clickingSoundPlayer.play();
+    
+        playRound(choice);
+    }
 };
 
 const choiceNodes = document.getElementsByClassName('choice');
 Array.from(choiceNodes).forEach(node => {
     node.addEventListener('mouseover', () => node.classList.add('hovering'));
     node.addEventListener('mouseout', () => node.classList.remove('hovering'));
-    node.addEventListener('click', chooseChoice);
+    node.addEventListener('click', e => chooseChoice(e.target.parentNode.dataset.choice));
 });
 
+let userHP = 5;
+let computerHP = 5;
+let roundCounter = 1;
+let gameOverMessage = '';
 
 function getComputerChoice() {
     return CHOICES[Math.floor(Math.random()*3)];
 };
 
-function playRoundAndGetWinner() {
-    const userChoice = prompt(`${ROCK}, ${PAPER} or ${SCISSORS}?`)?.toLowerCase()
+function didUserWinRound(userChoice, computerChoice) {
+    switch (userChoice) {
+        case ROCK:
+            return computerChoice === SCISSORS
+        case PAPER:
+            return computerChoice === ROCK
+        case SCISSORS:
+            return computerChoice === PAPER
+    };
 
-    if (!CHOICES.includes(userChoice)) {
-        alert('Please insert a valid choice!')
-        return playRoundAndGetWinner()
+
+};
+
+function playRound(userChoice) {
+    const computerChoice = getComputerChoice();
+
+    const roundMsgNode = document.querySelector('.round-msg')
+
+    const roundCounterNode = document.querySelector('.round-counter')
+    roundCounterNode.textContent = `ROUND ${++roundCounter}`
+
+    if (computerChoice === userChoice) {
+        roundMsgNode.innerHTML = `The computer chose ${computerChoice}. <strong>It's a tie!</strong>`
     } else {
-        const computerChoice = getComputerChoice()
+        let userWon = didUserWinRound(userChoice, computerChoice);
 
-        let tie = userChoice === computerChoice
-        let userDidWin;
+        if (userWon) {
+            roundMsgNode.innerHTML = `The computer chose ${computerChoice}. <strong>You win!</strong>`
 
-        if (tie) {
-            alert(`Computer choice was: ${computerChoice}. It's a tie!`)
-            return 'tie'
-        } else {
-            switch(userChoice) {
-                case ROCK:
-                    userDidWin = computerChoice === SCISSORS
+            computerHP--;
+            computerHPContainer = document.querySelector('.computer-hp')
+            for (node of computerHPContainer.children) {
+                if (node.textContent === '❤️') {
+                    node.textContent = '🖤'
                     break
-                case PAPER:
-                    userDidWin = computerChoice === ROCK
-                    break
-                case SCISSORS:
-                    userDidWin = computerChoice === PAPER
-                    break
+                }
             }
 
-            if (userDidWin) {
-                alert(`Computer choice was: ${computerChoice}. You win!`)
-                return 'user'
-            } else {
-                alert(`Computer choice was: ${computerChoice}. You lose!`)
-                return 'computer'
+            if (computerHP === 0) { // if we won
+                gameOverMessage = 'You won 5 times. You win the game!'
+            }
+        } else {
+            roundMsgNode.innerHTML = `The computer chose ${computerChoice}. <strong>You lose!</strong>`
+
+            userHP--;
+            userHPContainer = document.querySelector('.user-hp')
+            for (node of userHPContainer.children) {
+                if (node.textContent === '❤️') {
+                    node.textContent = '🖤'
+                    break
+                } 
+            }
+
+            if (userHP === 0) { // if we lost
+                gameOverMessage = 'The computer won 5 times. You lose the game!'
             }
         }
+
+        if (gameOverMessage) alert(gameOverMessage)
     }
-}
+};
 
-function game() {
-    let userLives = 3
-    let computerLives = 3
 
-    while (userLives > 0 && computerLives > 0) {
-        let winner = playRoundAndGetWinner()
-
-        if (winner === 'user') {
-            computerLives--
-        } else if (winner === 'computer') {
-            userLives--
-        } 
-
-        console.log(`*** YOU ${3-computerLives} | COMPUTER ${3-userLives} ***`)
-    }
-
-    if (userLives === 0) { // the user lost
-        alert('The computer won 3 times. You lose the game.')
-    } else { // the computer lost
-        alert('You won 3 times. You win the game.')
-    }
-
-    let playNewGame = confirm('Want to play a new game?')
-
-    if (playNewGame) {
-        game()
-    }
-}
-
-// const playBtn = document.querySelector('button')
-// playBtn.addEventListener('click', game)
