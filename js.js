@@ -10,7 +10,7 @@ function chooseChoice(choice) {
         clickingSoundPlayer.play();
     
         playRound(choice);
-    }
+    };
 };
 
 const choiceNodes = document.getElementsByClassName('choice');
@@ -115,8 +115,8 @@ function playRound(userChoice) {
                 document.querySelector('.modal-body-text').textContent = gameOverMessage;
                 gameOverModal.style.display = 'block';
             }, 300);
-        }
-    }
+        };
+    };
 };
 
 
